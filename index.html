@@ -6,101 +6,116 @@
     <title>Sleep Journey</title>
     <style>
         :root {
-            --primary-color: #007AFF;
-            --secondary-color: #5856D6;
-            --background-color: #f5f5f5;
-            --card-background: #ffffff;
-            --text-color: #333333;
-            --border-color: #e0e0e0;
-            --success-color: #28a745;
-            --warning-color: #ffc107;
-            --danger-color: #dc3545;
-        }
-
-        [data-theme="dark"] {
-            --primary-color: #0A84FF;
-            --secondary-color: #5E5CE6;
+            --primary-color: #FFB6C1;
+            --secondary-color: #87CEEB;
             --background-color: #1a1a1a;
-            --card-background: #2c2c2c;
+            --card-background: rgba(255, 255, 255, 0.1);
             --text-color: #ffffff;
-            --border-color: #3a3a3a;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --success-color: #98FB98;
+            --warning-color: #FFD700;
+            --danger-color: #FF6B6B;
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             margin: 0;
-            padding: 20px;
-            background-color: var(--background-color);
+            padding: 0;
+            background: linear-gradient(-45deg, #1a1a2e, #16213e, #1f4287, #0f3460);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
             color: var(--text-color);
-            transition: background-color 0.3s, color 0.3s;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         .container {
-            max-width: 800px;
-            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            min-height: calc(100vh - 40px);
         }
 
         .header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
 
         .header h1 {
-            font-size: 2.5em;
+            font-size: 2em;
             margin: 0;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--primary-color);
+            font-weight: 300;
         }
 
         .header p {
-            font-size: 1.2em;
+            font-size: 1em;
             color: var(--text-color);
             opacity: 0.8;
             margin: 10px 0;
+            font-weight: 300;
         }
 
         .card {
-            background-color: var(--card-background);
+            background: var(--card-background);
             border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
         }
 
         .input-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .input-group label {
             display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
+            margin-bottom: 5px;
+            font-weight: 300;
             color: var(--text-color);
+            font-size: 0.9em;
         }
 
         .input-group input {
             width: 100%;
-            padding: 12px;
+            padding: 8px;
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            background-color: var(--card-background);
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.1);
             color: var(--text-color);
-            font-size: 16px;
-            transition: border-color 0.2s;
+            font-size: 14px;
+            transition: all 0.2s;
         }
 
         .input-group input:focus {
             outline: none;
             border-color: var(--primary-color);
+            background: rgba(255, 255, 255, 0.15);
         }
 
         .weekly-inputs {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
         .day-input {
@@ -109,13 +124,14 @@
 
         .day-input label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: 500;
+            margin-bottom: 3px;
+            font-weight: 300;
+            font-size: 0.8em;
         }
 
         .day-input input {
-            width: 80px;
-            padding: 8px;
+            width: 60px;
+            padding: 5px;
             text-align: center;
         }
 
@@ -123,22 +139,23 @@
             background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
             color: white;
             border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
+            padding: 8px 16px;
+            border-radius: 6px;
             cursor: pointer;
             width: 100%;
-            font-size: 16px;
-            font-weight: 600;
-            transition: transform 0.2s, opacity 0.2s;
-        }
-
-        button:hover {
-            transform: translateY(-2px);
+            font-size: 14px;
+            font-weight: 400;
+            transition: all 0.2s;
             opacity: 0.9;
         }
 
+        button:hover {
+            transform: translateY(-1px);
+            opacity: 1;
+        }
+
         .results {
-            margin-top: 30px;
+            margin-top: 20px;
             display: none;
         }
 
@@ -148,39 +165,39 @@
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
         .stat-card {
-            background-color: var(--card-background);
-            padding: 15px;
-            border-radius: 8px;
+            background: var(--card-background);
+            padding: 10px;
+            border-radius: 6px;
             text-align: center;
             border: 1px solid var(--border-color);
         }
 
         .stat-value {
-            font-size: 24px;
-            font-weight: bold;
+            font-size: 18px;
+            font-weight: 400;
             color: var(--primary-color);
-            margin-bottom: 5px;
+            margin-bottom: 3px;
         }
 
         .stat-label {
-            font-size: 14px;
+            font-size: 12px;
             color: var(--text-color);
             opacity: 0.8;
         }
 
         .status {
-            font-size: 1.2em;
-            margin-bottom: 15px;
-            padding: 10px;
-            border-radius: 6px;
-            background: rgba(0, 122, 255, 0.1);
-            color: var(--primary-color);
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
         }
 
         .recommendations {
@@ -189,9 +206,10 @@
         }
 
         .recommendations li {
-            margin-bottom: 10px;
-            padding-left: 20px;
+            margin-bottom: 8px;
+            padding-left: 15px;
             position: relative;
+            font-size: 0.9em;
         }
 
         .recommendations li:before {
@@ -202,28 +220,87 @@
         }
 
         .theme-toggle {
+            display: none;
+        }
+
+        .music-controls {
             position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: var(--card-background);
-            border: 1px solid var(--border-color);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
+            bottom: 15px;
+            right: 15px;
+            background: var(--card-background);
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 1000;
+            pointer-events: auto;
+            backdrop-filter: blur(10px);
+        }
+
+        .music-controls button {
+            width: auto;
+            margin: 3px;
+            padding: 6px 12px;
+            font-size: 12px;
+            pointer-events: auto;
+        }
+
+        .volume-control {
+            margin-top: 8px;
+            pointer-events: auto;
+        }
+
+        .volume-control input[type="range"] {
+            width: 100%;
+            margin: 3px 0;
+            pointer-events: auto;
+        }
+
+        .audio-icon {
+            margin-right: 3px;
+        }
+
+        .rain-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .rain-container.active {
+            opacity: 0.3;
+        }
+
+        .rain {
+            position: absolute;
+            width: 2px;
+            height: 100px;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.2));
+            animation: rain 1s linear infinite;
+        }
+
+        @keyframes rain {
+            0% {
+                transform: translateY(-100px);
+            }
+            100% {
+                transform: translateY(100vh);
+            }
         }
 
         @media (max-width: 600px) {
             .container {
-                padding: 10px;
+                margin: 10px;
+                padding: 15px;
+                min-height: calc(100vh - 20px);
             }
 
             .header h1 {
-                font-size: 2em;
+                font-size: 1.5em;
             }
 
             .weekly-inputs {
@@ -233,7 +310,16 @@
     </style>
 </head>
 <body>
+    <div id="scene-container"></div>
+    <div class="night-sky"></div>
+    <div class="stars"></div>
+    <div class="moon"></div>
+    <div class="trees"></div>
     <div class="theme-toggle" id="themeToggle">🌙</div>
+
+    <div class="rain-container" id="rainContainer">
+        <!-- Rain drops will be added here dynamically -->
+    </div>
 
     <div class="container">
         <div class="header">
@@ -305,17 +391,27 @@
         </div>
     </div>
 
-    <script>
-        // Theme toggle functionality
-        const themeToggle = document.getElementById('themeToggle');
-        const body = document.body;
-        
-        themeToggle.addEventListener('click', () => {
-            const isDark = body.getAttribute('data-theme') === 'dark';
-            body.setAttribute('data-theme', isDark ? 'light' : 'dark');
-            themeToggle.textContent = isDark ? '🌙' : '☀️';
-        });
+    <div class="music-controls">
+        <button id="musicToggle" onclick="toggleMusic()">
+            <span class="audio-icon">🎵</span> Play Music
+        </button>
+        <button id="ambientToggle" onclick="toggleAmbient()">
+            <span class="audio-icon">🌧️</span> Play Rain
+        </button>
+        <div class="volume-control">
+            <label for="volume">Volume:</label>
+            <input type="range" id="volume" min="0" max="100" value="50">
+        </div>
+    </div>
 
+    <audio id="relaxingMusic" loop>
+        <source src="assets/audio/Lobo Loco - Pianoman Under Bridge (ID 1823).mp3" type="audio/mpeg">
+    </audio>
+    <audio id="ambientSound" loop>
+        <source src="assets/audio/rain-sound-272604.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
         // Calculate button functionality
         document.getElementById('calculateBtn').addEventListener('click', () => {
             const idealHours = parseFloat(document.getElementById('idealHours').value);
@@ -379,6 +475,250 @@
                 `;
             }
         });
+
+        // Music controls
+        const relaxingMusic = document.getElementById('relaxingMusic');
+        const ambientSound = document.getElementById('ambientSound');
+        const volumeControl = document.getElementById('volume');
+        const musicToggle = document.getElementById('musicToggle');
+        const ambientToggle = document.getElementById('ambientToggle');
+        const rainContainer = document.getElementById('rainContainer');
+
+        // Create rain drops
+        function createRainDrops() {
+            for (let i = 0; i < 100; i++) {
+                const drop = document.createElement('div');
+                drop.className = 'rain';
+                drop.style.left = `${Math.random() * 100}%`;
+                drop.style.animationDelay = `${Math.random() * 2}s`;
+                drop.style.opacity = Math.random() * 0.5 + 0.2;
+                rainContainer.appendChild(drop);
+            }
+        }
+
+        createRainDrops();
+
+        function toggleMusic() {
+            if (relaxingMusic.paused) {
+                relaxingMusic.play();
+                musicToggle.innerHTML = '<span class="audio-icon">🎵</span> Pause Music';
+            } else {
+                relaxingMusic.pause();
+                musicToggle.innerHTML = '<span class="audio-icon">🎵</span> Play Music';
+            }
+        }
+
+        function toggleAmbient() {
+            if (ambientSound.paused) {
+                ambientSound.play();
+                ambientToggle.innerHTML = '<span class="audio-icon">🌧️</span> Pause Rain';
+                rainContainer.classList.add('active');
+            } else {
+                ambientSound.pause();
+                ambientToggle.innerHTML = '<span class="audio-icon">🌧️</span> Play Rain';
+                rainContainer.classList.remove('active');
+            }
+        }
+
+        volumeControl.addEventListener('input', (e) => {
+            const volume = e.target.value / 100;
+            relaxingMusic.volume = volume;
+            ambientSound.volume = volume;
+        });
+
+        // Three.js Scene Setup
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('scene-container').appendChild(renderer.domElement);
+
+        // Add controls
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.maxPolarAngle = Math.PI / 2;
+
+        // Create ground
+        const groundGeometry = new THREE.PlaneGeometry(100, 100);
+        const groundMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0x2d5a27,
+            roughness: 0.8,
+            metalness: 0.2
+        });
+        const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+        ground.rotation.x = -Math.PI / 2;
+        scene.add(ground);
+
+        // Create lake
+        const lakeGeometry = new THREE.PlaneGeometry(50, 50);
+        const lakeMaterial = new THREE.MeshStandardMaterial({
+            color: 0x1e3a8a,
+            transparent: true,
+            opacity: 0.6,
+            roughness: 0.1,
+            metalness: 0.8
+        });
+        const lake = new THREE.Mesh(lakeGeometry, lakeMaterial);
+        lake.rotation.x = -Math.PI / 2;
+        lake.position.y = 0.1;
+        scene.add(lake);
+
+        // Create moon
+        const moonGeometry = new THREE.SphereGeometry(5, 32, 32);
+        const moonMaterial = new THREE.MeshStandardMaterial({
+            color: 0xffd700,
+            emissive: 0xffd700,
+            emissiveIntensity: 0.5
+        });
+        const moon = new THREE.Mesh(moonGeometry, moonMaterial);
+        moon.position.set(20, 15, -20);
+        scene.add(moon);
+
+        // Create dog with more detailed parts
+        const dogGroup = new THREE.Group();
+        scene.add(dogGroup);
+
+        // Dog body
+        const dogBodyGeometry = new THREE.BoxGeometry(2, 1, 3);
+        const dogMaterial = new THREE.MeshStandardMaterial({ color: 0x8b4513 });
+        const dogBody = new THREE.Mesh(dogBodyGeometry, dogMaterial);
+        dogGroup.add(dogBody);
+
+        // Dog head
+        const dogHeadGeometry = new THREE.SphereGeometry(0.5, 16, 16);
+        const dogHead = new THREE.Mesh(dogHeadGeometry, dogMaterial);
+        dogHead.position.set(1.5, 0.5, 0);
+        dogGroup.add(dogHead);
+
+        // Dog tail
+        const tailGeometry = new THREE.CylinderGeometry(0.1, 0.05, 0.8, 8);
+        const tail = new THREE.Mesh(tailGeometry, dogMaterial);
+        tail.position.set(-1, 0.5, 0);
+        tail.rotation.z = Math.PI / 4;
+        dogGroup.add(tail);
+
+        // Dog legs with joints
+        const legGeometry = new THREE.CylinderGeometry(0.1, 0.1, 0.5, 8);
+        const legMaterial = new THREE.MeshStandardMaterial({ color: 0x8b4513 });
+        
+        const legs = [];
+        for (let i = 0; i < 4; i++) {
+            const leg = new THREE.Mesh(legGeometry, legMaterial);
+            const x = i < 2 ? -0.5 : 0.5;
+            const z = i % 2 === 0 ? -0.5 : 0.5;
+            leg.position.set(x, -0.25, z);
+            dogGroup.add(leg);
+            legs.push(leg);
+        }
+
+        // Create sausages
+        const sausages = [];
+        for (let i = 0; i < 3; i++) {
+            const sausageGeometry = new THREE.CylinderGeometry(0.1, 0.1, 0.5, 8);
+            const sausageMaterial = new THREE.MeshStandardMaterial({ color: 0xff6b6b });
+            const sausage = new THREE.Mesh(sausageGeometry, sausageMaterial);
+            sausage.position.set(
+                Math.random() * 20 - 10,
+                0.3,
+                Math.random() * 20 - 10
+            );
+            sausage.rotation.x = Math.PI / 2;
+            scene.add(sausage);
+            sausages.push(sausage);
+        }
+
+        // Dog state
+        let dogState = {
+            position: new THREE.Vector3(0, 0.5, 0),
+            target: new THREE.Vector3(0, 0.5, 0),
+            rotation: 0,
+            isEating: false,
+            currentSausage: null,
+            walkSpeed: 0.05,
+            eatTime: 0
+        };
+
+        // Animation
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Rotate moon slowly
+            moon.rotation.y += 0.001;
+
+            // Update dog position and rotation
+            const direction = dogState.target.clone().sub(dogState.position);
+            if (direction.length() > 0.1) {
+                dogState.position.add(direction.normalize().multiplyScalar(dogState.walkSpeed));
+                dogGroup.position.copy(dogState.position);
+                
+                // Rotate dog towards movement direction
+                dogState.rotation = Math.atan2(direction.x, direction.z);
+                dogGroup.rotation.y = dogState.rotation;
+
+                // Animate legs
+                const legSpeed = 0.1;
+                legs.forEach((leg, index) => {
+                    leg.rotation.x = Math.sin(Date.now() * 0.01 + index * Math.PI / 2) * 0.5;
+                });
+
+                // Animate tail
+                tail.rotation.z = Math.PI / 4 + Math.sin(Date.now() * 0.01) * 0.2;
+            } else {
+                // Find new target or sausage
+                if (!dogState.isEating) {
+                    const nearestSausage = sausages.find(s => s.visible);
+                    if (nearestSausage) {
+                        dogState.target.copy(nearestSausage.position);
+                        dogState.currentSausage = nearestSausage;
+                    } else {
+                        // Walk around the pond
+                        const angle = Math.random() * Math.PI * 2;
+                        const radius = 8;
+                        dogState.target.set(
+                            Math.cos(angle) * radius,
+                            0.5,
+                            Math.sin(angle) * radius
+                        );
+                    }
+                }
+            }
+
+            // Handle eating animation
+            if (dogState.isEating) {
+                dogState.eatTime += 0.01;
+                if (dogState.eatTime > 2) {
+                    dogState.isEating = false;
+                    dogState.eatTime = 0;
+                    if (dogState.currentSausage) {
+                        dogState.currentSausage.visible = false;
+                        dogState.currentSausage = null;
+                    }
+                } else {
+                    // Eating animation
+                    dogHead.rotation.x = Math.sin(dogState.eatTime * 5) * 0.3;
+                    dogHead.rotation.z = Math.sin(dogState.eatTime * 5) * 0.2;
+                }
+            } else if (dogState.currentSausage && 
+                      dogState.position.distanceTo(dogState.currentSausage.position) < 1) {
+                dogState.isEating = true;
+            }
+
+            // Update controls
+            controls.update();
+
+            renderer.render(scene, camera);
+        }
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Start animation
+        animate();
     </script>
 </body>
 </html> 
