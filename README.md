@@ -1,5 +1,12 @@
 # Sleep Journey 🌙
 
+```
+    /\___/\
+   (  o_o  )
+    (  T  )
+     | | |
+```
+
 A beautiful and interactive web application for tracking sleep patterns and improving rest quality. Sleep Journey helps you monitor your weekly sleep schedule, calculate sleep debt, and receive personalized recommendations for better sleep habits.
 
 ## Features ✨
