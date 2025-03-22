@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleep Journey</title>
+    <style>
+        :root {
+            --primary-color: #007AFF;
+            --secondary-color: #5856D6;
+            --background-color: #f5f5f5;
+            --card-background: #ffffff;
+            --text-color: #333333;
+            --border-color: #e0e0e0;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #0A84FF;
+            --secondary-color: #5E5CE6;
+            --background-color: #1a1a1a;
+            --card-background: #2c2c2c;
+            --text-color: #ffffff;
+            --border-color: #3a3a3a;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin: 0;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            color: var(--text-color);
+            opacity: 0.8;
+            margin: 10px 0;
+        }
+
+        .card {
+            background-color: var(--card-background);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--card-background);
+            color: var(--text-color);
+            font-size: 16px;
+            transition: border-color 0.2s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .weekly-inputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .day-input {
+            text-align: center;
+        }
+
+        .day-input label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .day-input input {
+            width: 80px;
+            padding: 8px;
+            text-align: center;
+        }
+
+        button {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 600;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        .results {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background-color: var(--card-background);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        .status {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 6px;
+            background: rgba(0, 122, 255, 0.1);
+            color: var(--primary-color);
+        }
+
+        .recommendations {
+            list-style: none;
+            padding: 0;
+        }
+
+        .recommendations li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .recommendations li:before {
+            content: "•";
+            color: var(--primary-color);
+            position: absolute;
+            left: 0;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--card-background);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .weekly-inputs {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="theme-toggle" id="themeToggle">🌙</div>
+
+    <div class="container">
+        <div class="header">
+            <h1>Sleep Journey</h1>
+            <p>Track your sleep patterns and improve your rest</p>
+        </div>
+
+        <div class="card">
+            <div class="input-group">
+                <label for="idealHours">Ideal Sleep Hours per Day:</label>
+                <input type="number" id="idealHours" min="4" max="12" step="0.5" value="8">
+            </div>
+
+            <div class="weekly-inputs">
+                <div class="day-input">
+                    <label for="monday">Monday</label>
+                    <input type="number" id="monday" min="0" max="24" step="0.5" value="8">
+                </div>
+                <div class="day-input">
+                    <label for="tuesday">Tuesday</label>
+                    <input type="number" id="tuesday" min="0" max="24" step="0.5" value="8">
+                </div>
+                <div class="day-input">
+                    <label for="wednesday">Wednesday</label>
+                    <input type="number" id="wednesday" min="0" max="24" step="0.5" value="8">
+                </div>
+                <div class="day-input">
+                    <label for="thursday">Thursday</label>
+                    <input type="number" id="thursday" min="0" max="24" step="0.5" value="8">
+                </div>
+                <div class="day-input">
+                    <label for="friday">Friday</label>
+                    <input type="number" id="friday" min="0" max="24" step="0.5" value="8">
+                </div>
+                <div class="day-input">
+                    <label for="saturday">Saturday</label>
+                    <input type="number" id="saturday" min="0" max="24" step="0.5" value="8">
+                </div>
+                <div class="day-input">
+                    <label for="sunday">Sunday</label>
+                    <input type="number" id="sunday" min="0" max="24" step="0.5" value="8">
+                </div>
+            </div>
+
+            <button id="calculateBtn">Calculate Sleep Analysis</button>
+        </div>
+
+        <div class="results" id="results">
+            <div class="card">
+                <h2>Sleep Analysis</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="weeklyTotal">0</div>
+                        <div class="stat-label">Weekly Total</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="sleepDebt">0</div>
+                        <div class="stat-label">Sleep Debt</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="sleepQuality">0%</div>
+                        <div class="stat-label">Sleep Quality</div>
+                    </div>
+                </div>
+                <div class="status" id="status"></div>
+                <h3>Recommendations</h3>
+                <ul class="recommendations" id="recommendations"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        
+        themeToggle.addEventListener('click', () => {
+            const isDark = body.getAttribute('data-theme') === 'dark';
+            body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            themeToggle.textContent = isDark ? '🌙' : '☀️';
+        });
+
+        // Calculate button functionality
+        document.getElementById('calculateBtn').addEventListener('click', () => {
+            const idealHours = parseFloat(document.getElementById('idealHours').value);
+            const sleepLog = [
+                parseFloat(document.getElementById('monday').value),
+                parseFloat(document.getElementById('tuesday').value),
+                parseFloat(document.getElementById('wednesday').value),
+                parseFloat(document.getElementById('thursday').value),
+                parseFloat(document.getElementById('friday').value),
+                parseFloat(document.getElementById('saturday').value),
+                parseFloat(document.getElementById('sunday').value)
+            ];
+
+            const weeklyTotal = sleepLog.reduce((a, b) => a + b, 0);
+            const averageSleep = weeklyTotal / 7;
+            const sleepDebt = (idealHours * 7) - weeklyTotal;
+            const sleepQuality = Math.min(100, (averageSleep / idealHours) * 100);
+
+            const results = document.getElementById('results');
+            const status = document.getElementById('status');
+            const recommendations = document.getElementById('recommendations');
+
+            results.classList.add('show');
+
+            // Update stats
+            document.getElementById('weeklyTotal').textContent = weeklyTotal.toFixed(1);
+            document.getElementById('sleepDebt').textContent = Math.abs(sleepDebt).toFixed(1);
+            document.getElementById('sleepQuality').textContent = `${sleepQuality.toFixed(1)}%`;
+
+            // Set status and recommendations
+            if (sleepDebt === 0) {
+                status.textContent = 'Perfect sleep schedule!';
+                status.style.color = 'var(--success-color)';
+            } else if (sleepDebt > 0) {
+                status.textContent = `You are undersleeping by ${sleepDebt.toFixed(1)} hours this week`;
+                status.style.color = 'var(--danger-color)';
+            } else {
+                status.textContent = `You are oversleeping by ${Math.abs(sleepDebt).toFixed(1)} hours this week`;
+                status.style.color = 'var(--warning-color)';
+            }
+
+            // Generate recommendations
+            recommendations.innerHTML = '';
+            if (sleepDebt > 0) {
+                recommendations.innerHTML += `
+                    <li>Try to get ${(sleepDebt / 7).toFixed(1)} more hours of sleep per day</li>
+                    <li>Consider going to bed earlier or improving sleep quality</li>
+                    <li>Create a consistent bedtime routine</li>
+                `;
+            } else if (sleepDebt < 0) {
+                recommendations.innerHTML += `
+                    <li>Consider maintaining a more consistent sleep schedule</li>
+                    <li>Try to wake up earlier to align with your ideal sleep hours</li>
+                    <li>Exercise regularly to improve sleep quality</li>
+                `;
+            } else {
+                recommendations.innerHTML += `
+                    <li>Keep up the great sleep habits!</li>
+                    <li>Maintain your current sleep schedule</li>
+                    <li>Continue practicing good sleep hygiene</li>
+                `;
+            }
+        });
+    </script>
+</body>
+</html> 

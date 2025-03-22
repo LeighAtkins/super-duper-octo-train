@@ -1,0 +1,12 @@
+{
+  "name": "sleep-tracker",
+  "version": "1.0.0",
+  "description": "A simple sleep tracking application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {
+    "electron": "^13.6.9"
+  }
+}
